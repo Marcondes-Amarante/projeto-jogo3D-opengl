@@ -41,7 +41,10 @@ void initGL() {
     enemies.push_back(Enemy(30.0f, 0.0f, 30.0f));
     enemies.push_back(Enemy(-20.0f, 0.0f, 10.0f));
     enemies.push_back(Enemy(2.0f, 0.0f, 50.0f));
-}
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+}   
 
 // per-frame
 void display() {
@@ -59,9 +62,9 @@ void display() {
 
         glBegin(GL_QUADS);
             glVertex3f(-50.0f, -1.0f, -50.0f);
-            glVertex3f( 50.0f, -1.0f, -50.0f);
+            glVertex3f(-50.0f, -1.0f,  50.0f); 
             glVertex3f( 50.0f, -1.0f,  50.0f);
-            glVertex3f(-50.0f, -1.0f,  50.0f);
+            glVertex3f( 50.0f, -1.0f, -50.0f);
         glEnd();
     glPopMatrix();
 
