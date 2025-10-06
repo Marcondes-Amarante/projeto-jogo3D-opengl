@@ -9,17 +9,38 @@ O projeto em questão consiste em um jogo 3D em primeira pessoa de sobrevivênci
 
 ## Como executar:
 
-Na pasta raiz do projeto, exeute via terminal o seguinte comando para compilar o projeto e gerar seu executável:
-
+No Linux:
+  Verifique se as bibliotecas estão instaladas.
+  Execute no terminal:
+    
 ```bash
-g++ src/*.cpp -I . -o game.exe -lfreeglut -lopengl32 -lglu32
+    sudo apt update
+    sudo apt install freeglut3-dev
 ```
 
-para executar o projeto, estando na raiz do projeto basta executar o comando abaixo:
+  Na pasta raiz do projeto, exeute via terminal o seguinte comando para compilar o projeto e gerar seu executável:
 
 ```bash
-game
+    g++ src/*.cpp -I . -o game -lGL -lGLU -lglut
 ```
+  Para executar o projeto, estando na raiz do projeto basta executar o comando abaixo:
+
+```bash
+    ./game
+```
+No Windows:
+   Na pasta raiz do projeto, exeute via terminal o seguinte comando para compilar o projeto e gerar seu executável:
+
+```bash
+    g++ src/*.cpp -I . -o game.exe -lfreeglut -lopengl32 -lglu32
+```
+
+   Para executar o projeto, estando na raiz do projeto basta executar o comando abaixo:
+
+```bash
+    game
+```
+
 
 ## Controles
 
