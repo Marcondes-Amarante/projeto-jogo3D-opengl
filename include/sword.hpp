@@ -2,10 +2,10 @@
 #define SWORD_HPP
 
 #include "point.hpp"
-
+#include "object3d.hpp"
 #include <GL/glut.h>
 
-class Sword{
+class Sword: Object3D{
 
     Point offset;
     Point position;

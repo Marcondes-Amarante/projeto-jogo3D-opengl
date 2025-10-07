@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <cmath>
-#include "include/point.hpp"
+#include "point.hpp"
 
 Point::Point(double x_coord, double y_coord, double z_coord): x(x_coord), y(y_coord), z(z_coord) {}
 Point::Point() : x(0.0), y(0.0), z(1.0) {}

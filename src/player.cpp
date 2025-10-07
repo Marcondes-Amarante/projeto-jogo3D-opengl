@@ -1,7 +1,7 @@
 #include <cmath>
-#include "include/player.hpp"
-#include "include/camera.hpp"
-#include "include/sword.hpp"
+#include "player.hpp"
+#include "camera.hpp"
+#include "sword.hpp"
 
 //static float anim_speed = 3.0f;
 static float knockback_force = 20.0f;
@@ -17,6 +17,10 @@ Player::Player() {
 
 Player::Player(float x, float y, float z, float pitch, float yaw) {
     this->camera = Camera(x, y, z, pitch, yaw);
+    init_player();
+}
+
+void Player::init_player() {
     isAttacking = false;
     health = 10.0f;
     velocity = Point(0, 0, 0);
@@ -124,10 +128,6 @@ void Player::takeHit(const Point& knockbackDir){
     foiAtingido = true;
     hitTime = 0.3f;
     applyKnockback(knockbackDir);
-
-    if(health <= 0){
-        exit(0);
-    }
 }
 
 void Player::applyKnockback(const Point& direction){
@@ -141,4 +141,12 @@ string Player::get_str_position() const {
     return "Player: (" + std::to_string(camera.get_position().getX()) + ", "
         + std::to_string(camera.get_position().getY()) + ", "
         + std::to_string(camera.get_position().getZ()) + ")";
+}
+
+bool Player::is_alive() {
+    return health > 0;
+}
+
+int Player::get_health() {
+    return health;
 }

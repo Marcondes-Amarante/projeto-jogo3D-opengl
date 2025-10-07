@@ -1,4 +1,4 @@
-#include "include/keyboard_map.hpp"
+#include "keyboard_map.hpp"
 
 KeyboardMap *KeyboardMap::instance = nullptr;
 

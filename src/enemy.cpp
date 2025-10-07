@@ -1,10 +1,12 @@
 #include <GL/glut.h>
 #include <cmath>
-#include "include/enemy.hpp"
+#include <iostream>
+#include "enemy.hpp"
+
+#define M_PI 3.14159265359f
 
 static float anim_speed = 3.0f;
 static float knockback_force = 7.0f;
-
 
 Enemy::Enemy(){
     position = Point(0, 0, 0);
@@ -24,25 +26,20 @@ Enemy::Enemy(float x, float y, float z){
     foiAtingido = false;
     hitTime = 0.0f;
     health = 5.0f;
+    set_scale(.2);
+    if (!load_model("assets/haunter.obj"))
+        throw std::invalid_argument("Carregamento da arena falhou");
 }
 
-void Enemy::desenhar(){
-
+void Enemy::desenhar(float playerX, float playerZ) {
     glPushMatrix();
-
+        float dx = playerX - position.getX();
+        float dz = playerZ - position.getZ();
+        float angle = atan2(dz, dx) * 180.0f / M_PI;
         glTranslatef(position.getX(), position.getY(), position.getZ());
-
-        //alterando cor quando atingido
-        if(foiAtingido){
-            glColor3f(1.0f, 0.0f, 0.0f);
-        }else{
-            glColor3f(0.0f, 1.0f, 0.0f);
-        }
-
-        glutSolidCube(1.0f);
-
+        glRotatef(-angle + 90.0f, 0.0f, 1.0f, 0.0f);
+        setup_draw();
     glPopMatrix();
-
 }
 
 void Enemy::takeHit(const Point& knockbackDir){
@@ -108,7 +105,6 @@ void Enemy::update(float deltaTime, const Point& cameraPos){
     }
 
 }
-
 
 bool Enemy::verificarColisaoPlayer(const Point& cameraPos, float raio) const{
     float dx = position.getX() - cameraPos.getX();

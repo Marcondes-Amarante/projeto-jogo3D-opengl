@@ -1,13 +1,18 @@
 #include <cmath>
-#include "include/point.hpp"
-#include "include/camera.hpp"
+#include "point.hpp"
+#include "camera.hpp"
 
 #define M_PI 3.14159265359f
 #define SENSITIVITY 0.1f
 #define SPEED 3.0f
 
+#define LIMITX 10
+#define LIMITZ 8
+
+
 int last_mouse_x = -1;
 int last_mouse_y = -1;
+
 
 bool keyState[256] = {false};
 
@@ -86,6 +91,11 @@ void Camera::update(float deltaTime) {
         position.setX(position.getX() + moveSpeed * sin(rad_yaw));
         position.setZ(position.getZ() - moveSpeed * cos(rad_yaw));
     }
+
+    if(position.getX() > LIMITX) position.setX(LIMITX);
+    if(position.getX() < -LIMITX) position.setX(-LIMITX);
+    if(position.getZ() > LIMITZ) position.setZ(LIMITZ);
+    if(position.getZ() < -LIMITZ) position.setZ(-LIMITZ);
 
     update_cam_direction();
     glutPostRedisplay();

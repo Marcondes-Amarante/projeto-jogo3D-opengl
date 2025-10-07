@@ -1,35 +1,31 @@
 #include <GL/glut.h>
 #include <iostream>
-#include "include/player.hpp"
-#include "include/sword.hpp"
+#include "player.hpp"
+#include "sword.hpp"
 
 
 Sword::Sword(){
     attacking = false;
     attackSpeed = 5.0f;
     swordAngle = 0.0f;
-
-    offset = Point(0.3f, 0.2f, -1.0f);
+    offset = Point(0.4f, 0.1f, -1.0f);
+    set_scale(.06);
+    if (!load_model("assets/sword.obj"))
+        throw std::invalid_argument("Carregamento da arena falhou");
+    if(!load_texture("assets/textures/sword_texture_1024x1024.png"))
+        throw std::invalid_argument("Carregamento da textura da arena falhou");
 }
 
 void Sword::desenhar(const Point& cameraPos, float pitch, float yaw) {
-    
+    glDisable(GL_LIGHTING);
     glPushMatrix();
-    
-    // Reseta apenas para a posição da câmera, mantendo a orientação
-    glLoadIdentity();
-    
-    // Move para a posição relativa da câmera (coordenadas de tela)
-    glTranslatef(offset.getX(), offset.getY(), offset.getZ());
-    
-    // Aplica APENAS a rotação do ataque da espada
-    glRotatef(-swordAngle, 1.0f, 0.0f, 0.0f);
-
-    glColor3f(0.7f, 0.7f, 0.9f);
-    glScalef(0.1f, 0.7f, 0.1f);
-    glutSolidCube(1.0f);
-    
+        glLoadIdentity();
+        glTranslatef(offset.getX(), offset.getY(), offset.getZ());
+        glRotatef(-swordAngle, 1.0f, 0.0f, 0.0f);
+        glColor3f(0.7f, 0.7f, 0.9f);
+        setup_draw();
     glPopMatrix();
+    glEnable(GL_LIGHTING);
 }
 
 void Sword::update(const Point& cameraPos, const Point& cameraDir){

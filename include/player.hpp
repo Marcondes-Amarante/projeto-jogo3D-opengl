@@ -40,7 +40,10 @@ public:
     bool verificarAtaque();
     
     void takeHit(const Point& knockbackDir);
+    bool is_alive();
+    int get_health();
     void applyKnockback(const Point& direction);
+    void init_player();
 };
 
 #endif
