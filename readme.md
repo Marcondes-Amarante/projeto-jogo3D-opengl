@@ -50,6 +50,7 @@ No Windows:
 | `a`     | mover-se pra trás     |
 | `s`     | mover-se pra esquerda  |
 | `d`     | mover-se pra direita  |
+| `r` | resetar a partida |
 | `movimento do mouse` | controlar câmera |
 | `clique esquerdo do mouse` | atacar |
 | `ESC` | sair do jogo |
