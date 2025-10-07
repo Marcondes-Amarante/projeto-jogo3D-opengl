@@ -28,6 +28,7 @@ typedef struct {
     float Kd[3]; // difusa
     float Ks[3]; // especular
     float Ns; // brilho
+    std::string name;
 } Material;
 
 typedef unsigned int GLuint;
@@ -46,9 +47,9 @@ private:
     unsigned int id;
     Point position;
     float color[3] = {0.5f, 1.0f, 0.0f};
-    float diffuse_coef[3] = {0.5f, 1.0f, 0.0f};
-    float specular_coef[3] = {1.0f, 1.0f, 1.0f};
-    float shininess_coef = 10.0f;
+    float diffuse_coef[3] = {0.8f, .8f, 0.8f};
+    float specular_coef[3] = {6.0f, 6.0f, 6.0f};
+    float shininess_coef = 20.0f;
     
 public:
     Object3D();

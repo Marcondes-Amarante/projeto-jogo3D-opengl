@@ -29,6 +29,8 @@ Enemy::Enemy(float x, float y, float z){
     set_scale(.2);
     if (!load_model("assets/haunter.obj"))
         throw std::invalid_argument("Carregamento da arena falhou");
+    if (!load_model("assets/haunter.mtl"))
+        throw std::invalid_argument("Carregamento da arena falhou");
 }
 
 void Enemy::desenhar(float playerX, float playerZ) {

@@ -30,9 +30,11 @@ void Object3D::setup_draw() {
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, get_diffuse_coef());
+    glMaterialfv(GL_FRONT, GL_SPECULAR, get_specular_coef());
+    glMaterialf(GL_FRONT, GL_SHININESS, get_shininess_coef());
     
-    GLfloat diffuse[] = {.8, .8, .8};
-    glColor3fv(diffuse);
     glBegin(GL_TRIANGLES);
     for (const auto& face : faces) {
         Material* mat = nullptr;
@@ -151,39 +153,40 @@ bool Object3D::load_texture(const std::string& path) {
 }
 
 bool Object3D::load_mtl(const std::string& path) {
-    std::ifstream file(path);
-    if (!file.is_open()) return false;
+    std::ifstream file_mtl(path);
+    if (!file_mtl.is_open()) {
+        std::cerr << "Erro ao abrir o arquivo MTL: " << path << std::endl;
+        return false;
+    }
 
     std::string line;
-    Material current;
-    std::string currentName;
+    std::string currentMatName;
+    Material mat;
 
-    while (std::getline(file, line)) {
+    while (std::getline(file_mtl, line)) {
         std::istringstream ss(line);
-        std::string token;
-        ss >> token;
-        if (token == "newmtl") {
-            if (!currentName.empty()) {
-                materials[currentName] = current;
+        std::string type;
+        ss >> type;
+
+        if (type == "newmtl") {
+            if (!currentMatName.empty()) {
+                materials[currentMatName] = mat;
             }
-            ss >> currentName;
-            current = Material{};
-        } else if (token == "Ka") {
-            ss >> current.Ka[0] >> current.Ka[1] >> current.Ka[2];
-        } else if (token == "Kd") {
-            ss >> current.Kd[0] >> current.Kd[1] >> current.Kd[2];
-        } else if (token == "Ks") {
-            ss >> current.Ks[0] >> current.Ks[1] >> current.Ks[2];
-        } else if (token == "Ns") {
-            ss >> current.Ns;
-        }
+            ss >> currentMatName;
+            mat = Material();
+            mat.name = currentMatName;
+        } 
+        else if (type == "Ka") ss >> mat.Ka[0] >> mat.Ka[1] >> mat.Ka[2];
+        else if (type == "Kd") ss >> mat.Kd[0] >> mat.Kd[1] >> mat.Kd[2];
+        else if (type == "Ks") ss >> mat.Ks[0] >> mat.Ks[1] >> mat.Ks[2];
+        else if (type == "Ns") ss >> mat.Ns;
     }
 
-    if (!currentName.empty()) {
-        materials[currentName] = current;
+    if (!currentMatName.empty()) {
+        materials[currentMatName] = mat;
     }
 
-    file.close();
+    file_mtl.close();
     return true;
 }
 
