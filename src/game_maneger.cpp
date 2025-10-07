@@ -5,6 +5,9 @@
 #include <vector>
 #include <cmath>
 
+#define LIMITX 10
+#define LIMITZ 8
+
 int max_waves = 5; 
 int extra_health = 0;
 
@@ -42,9 +45,21 @@ void GameManager::spawnWave(int waveNumber) {
     enemies.clear();
     int numEnemies = 1 + ((int) waveNumber * 1.4);
     enemiesRemaining = numEnemies;
+    if (true) {
+        spawn_health = true;
+    } else {
+        spawn_health = false;
+    }
     for (int i = 0; i < numEnemies; ++i) {
-        float xPos = (rand() % 40) - 20;
-        float zPos = (rand() % 40) - 20;
+        float xPos, zPos;
+        while (1) {
+            xPos = (rand() % 40) - 20;
+            zPos = (rand() % 40) - 20;
+            if ((player.get_position().getX() - xPos) * (player.get_position().getX() - xPos) + \
+            (player.get_position().getZ() - zPos) * (player.get_position().getZ() - zPos) > 25) {
+                break;
+            }
+        }
         enemies.push_back(Enemy(xPos, -.2f, zPos));
     }
 }
@@ -137,6 +152,20 @@ void GameManager::display() {
             }
         }
 
+    }
+
+    if (false) {
+        glPushMatrix();
+            // glRotatef(cube_angle, 1.0f, 1.0f, 0.0f);
+            glTranslated(1.0, 0.0, 1.0);
+            GLfloat diffuse[]  = { 0.8, 0, 0, 1.0f };
+            GLfloat specular[] = { 0.9, 0.9, 0.9, 1.0f };
+            GLfloat shininess = 10;
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  diffuse);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+            glutSolidSphere(1.0f, 40, 40);
+        glPopMatrix();
     }
 
     drawHUD();

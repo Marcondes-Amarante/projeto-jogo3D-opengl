@@ -47,8 +47,8 @@ private:
     unsigned int id;
     Point position;
     float color[3] = {0.5f, 1.0f, 0.0f};
-    float diffuse_coef[3] = {0.8f, .8f, 0.8f};
-    float specular_coef[3] = {6.0f, 6.0f, 6.0f};
+    float diffuse_coef[3] = {0.8f, 0.8f, 0.8f};
+    float specular_coef[3] = {.6f, .6f, .6f};
     float shininess_coef = 20.0f;
     
 public:

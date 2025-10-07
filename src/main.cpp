@@ -6,6 +6,7 @@
 
 void initGL();
 void reshape(int w, int h);
+void lighting();
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
@@ -35,34 +36,37 @@ void initGL() {
     glDisable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHT0);
-    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     glClearColor(0.1f,0.1f,0.1f,1.0f);
     glutSetCursor(GLUT_CURSOR_NONE);
 
-    float position[4] = {2, 2, 2, 0};
-    float white[4] = {1, 1, 1, 1};
-    float black[4] = {0, 0, 0, 1};
+    lighting();
 
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, black);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, white);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+}   
 
-    float global_ambient[4] = {(float) .4, (float) .4, (float) .4, 1};
+void lighting() {
+    GLfloat light_pos[]     = { 2.0f, 1.0f, 2.0f, 1.0f };
+    GLfloat ambient_light[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    GLfloat diffuse_light[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+    GLfloat specular_light[]= { 1.0f, 1.0f, 1.0f, 1.0f };
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
+    //glLightfv(GL_LIGHT0, GL_AMBIENT,  ambient_light);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  diffuse_light);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
+
+    GLfloat global_ambient[] = { 0.15f, 0.15f, 0.15f, 1.0f };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    GLfloat mat_specular[] = {1.0,1.0,1.0,1.0};
-    GLfloat mat_shininess[]= {50.0};
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glShadeModel(GL_SMOOTH);
+}
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-}   
 
 void reshape(int w, int h) {
     if (h==0) h=1;

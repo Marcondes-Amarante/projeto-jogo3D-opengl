@@ -9,7 +9,6 @@
 #define LIMITX 10
 #define LIMITZ 8
 
-
 int last_mouse_x = -1;
 int last_mouse_y = -1;
 

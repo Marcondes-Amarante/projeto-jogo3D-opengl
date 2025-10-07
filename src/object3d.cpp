@@ -30,10 +30,6 @@ void Object3D::setup_draw() {
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, get_diffuse_coef());
-    glMaterialfv(GL_FRONT, GL_SPECULAR, get_specular_coef());
-    glMaterialf(GL_FRONT, GL_SHININESS, get_shininess_coef());
     
     glBegin(GL_TRIANGLES);
     for (const auto& face : faces) {
@@ -44,8 +40,16 @@ void Object3D::setup_draw() {
         }
 
         if (mat) {
-            GLfloat diffuse[] = { mat->Kd[0], mat->Kd[1], mat->Kd[2], 1.0f };
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+            GLfloat diffuse[]  = { mat->Kd[0], mat->Kd[1], mat->Kd[2], 1.0f };
+            GLfloat specular[] = { mat->Ks[0], mat->Ks[1], mat->Ks[2], 1.0f };
+            GLfloat shininess  = mat->Ns;
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  diffuse);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+        } else {
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  get_diffuse_coef());
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, get_specular_coef());
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, get_shininess_coef());
         }
         
         for (const auto& f : face) {

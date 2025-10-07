@@ -12,6 +12,8 @@ Sword::Sword(){
     set_scale(.06);
     if (!load_model("assets/sword.obj"))
         throw std::invalid_argument("Carregamento da arena falhou");
+    if (!load_model("assets/sword.mtl"))
+        throw std::invalid_argument("Carregamento da arena falhou");
     if(!load_texture("assets/textures/sword_texture_1024x1024.png"))
         throw std::invalid_argument("Carregamento da textura da arena falhou");
 }

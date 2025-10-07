@@ -11,6 +11,7 @@ enum GameState { MENU, PLAYING, GAME_OVER, VICTORY };
 class GameManager {
 private:
     std::vector<Enemy> enemies;
+    bool spawn_health;
     GameState currentState;
     int currentWave;
     float playerHealth;

@@ -140,7 +140,7 @@ void Player::takeHit(const Point& knockbackDir){
 
 void Player::applyKnockback(const Point& direction){
     velocity = Point(direction.getX() * knockback_force, 
-    0.5f,
+    0.0f,
     direction.getZ() * knockback_force);
 }
 

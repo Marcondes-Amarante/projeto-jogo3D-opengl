@@ -26,6 +26,11 @@ Enemy::Enemy(float x, float y, float z){
     foiAtingido = false;
     hitTime = 0.0f;
     health = 5.0f;
+
+    set_diffuse_coef(.447, .173, .522);
+    set_specular_coef(.9, .9, .9);
+    set_shininess_coef(10);
+
     set_scale(.2);
     if (!load_model("assets/haunter.obj"))
         throw std::invalid_argument("Carregamento da arena falhou");
@@ -53,7 +58,7 @@ void Enemy::takeHit(const Point& knockbackDir){
 
 void Enemy::applyKnockback(const Point& direction){
     velocity = Point(direction.getX() * knockback_force, 
-    0.5f,
+    0.0f,
     direction.getZ() * knockback_force);
 }
 
