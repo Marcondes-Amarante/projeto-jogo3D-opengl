@@ -59,18 +59,24 @@ void GameManager::drawHUD() {
         drawText(20, 500, "Inimigos: " + std::to_string(enemiesRemaining));
     }
     if (currentState == MENU) {
-        glColor3f(1.0, 0.8, 0.2); drawText(280, 400, "HAUNTER SLAYER");
-        glColor3f(1.0, 1.0, 1.0); drawText(250, 300, "Pressione 'ESPACO' para comecar");
+        glColor3f(1.0, 0.85, 0.1);
+        drawText(260, 400, "HAUNTER SLAYER");
+        glColor3f(0.6, 0.8, 1.0);
+        drawText(240, 300, "Pressione 'ESPACO' para comecar");
     }
-    if (currentState == GAME_OVER) { 
-        glColor3f(1.0, 0.0, 0.0); 
-        drawText(320, 300, "GAME OVER");
-        glColor3f(1.0, 1.0, 1.0); drawText(250, 270, "Pressione 'ESPACO' para recomecar");
+
+    if (currentState == GAME_OVER) {
+        glColor3f(1.0, 0.2, 0.1);
+        drawText(300, 300, "GAME OVER");
+        glColor3f(0.8, 0.8, 0.8);
+        drawText(240, 270, "Pressione 'ESPACO' para recomecar");
     }
-    if (currentState == VICTORY) { 
-        glColor3f(0.0, 1.0, 0.0); 
-        drawText(320, 300, "VITORIA!"); 
-        glColor3f(1.0, 1.0, 1.0); drawText(250, 270, "Pressione 'ESPACO' para recomecar");
+
+    if (currentState == VICTORY) {
+        glColor3f(0.0, 0.9, 0.4);
+        drawText(320, 300, "VITORIA!");
+        glColor3f(1.0, 0.95, 0.6);
+        drawText(240, 270, "Pressione 'ESPACO' para recomecar");
     }
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
@@ -80,10 +86,17 @@ void GameManager::drawHUD() {
 
 void GameManager::keyboard_down(unsigned char key, int x, int y) {
     if (key == 27) exit(0); // ESC
+    
     if (currentState == MENU || currentState == GAME_OVER || currentState == VICTORY) {
         if (key == ' ' || key == ' ') startGame();
         return;
     }
+
+    if (key == 'r' or key == 'R') {
+        startGame();
+        return;
+    }
+    
     player.keyboard_down(key);
 }
 

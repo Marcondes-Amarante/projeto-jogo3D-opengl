@@ -26,6 +26,10 @@ void Player::init_player() {
     velocity = Point(0, 0, 0);
     foiAtingido = false;
     hitTime = 0.0f;
+    camera.set_position(0.0f, 0.0f, 0.0f);
+    velocity.setX(0.0);
+    velocity.setY(0.0);
+    velocity.setZ(0.0);
 }
 
 const Point& Player::get_position() const {
