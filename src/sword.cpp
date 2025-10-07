@@ -8,7 +8,7 @@ Sword::Sword(){
     attacking = false;
     attackSpeed = 5.0f;
     swordAngle = 0.0f;
-    offset = Point(0.4f, 0.1f, -1.0f);
+    offset = Point(0.5f, 0.0f, -1.0f);
     set_scale(.06);
     if (!load_model("assets/sword.obj"))
         throw std::invalid_argument("Carregamento da arena falhou");
@@ -22,6 +22,7 @@ void Sword::desenhar(const Point& cameraPos, float pitch, float yaw) {
         glLoadIdentity();
         glTranslatef(offset.getX(), offset.getY(), offset.getZ());
         glRotatef(-swordAngle, 1.0f, 0.0f, 0.0f);
+          glRotatef(100.0f, 0.0f, 1.0f, 0.0f);
         glColor3f(0.7f, 0.7f, 0.9f);
         setup_draw();
     glPopMatrix();

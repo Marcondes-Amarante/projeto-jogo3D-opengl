@@ -65,12 +65,12 @@ void GameManager::drawHUD() {
     if (currentState == GAME_OVER) { 
         glColor3f(1.0, 0.0, 0.0); 
         drawText(320, 300, "GAME OVER");
-        glColor3f(1.0, 1.0, 1.0); drawText(250, 270, "Pressione 'ESPACO' para comecar");
+        glColor3f(1.0, 1.0, 1.0); drawText(250, 270, "Pressione 'ESPACO' para recomecar");
     }
     if (currentState == VICTORY) { 
         glColor3f(0.0, 1.0, 0.0); 
         drawText(320, 300, "VITORIA!"); 
-        glColor3f(1.0, 1.0, 1.0); drawText(250, 270, "Pressione 'ESPACO' para comecar");
+        glColor3f(1.0, 1.0, 1.0); drawText(250, 270, "Pressione 'ESPACO' para recomecar");
     }
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
