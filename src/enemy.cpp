@@ -6,19 +6,29 @@
 #define M_PI 3.14159265359f
 
 static float anim_speed = 3.0f;
-static float knockback_force = 7.0f;
+static float knockback_force = 6.0f;
 
 Enemy::Enemy(){
-    position = Point(0, 0, 0);
-    velocity = Point(0, 0, 0);
-    posBaseY = 0.5f;
-    animTime = 0.0f;
-    foiAtingido = false;
-    hitTime = 0.0f;
-    health = 5.0f;
+    speed_boost = 1;
+    scale_boost = 1;
+    set_diffuse_coef(.447, .173, .522);
+    set_specular_coef(.9, .9, .9);
+    set_shininess_coef(10);
+
+    set_scale(.2);
+    reset(0, 0, 0);
+
+    if (!load_model("assets/haunter.obj"))
+        throw std::invalid_argument("Carregamento da arena falhou");
+    if (!load_model("assets/haunter.mtl"))
+        throw std::invalid_argument("Carregamento da arena falhou");
 }
 
-Enemy::Enemy(float x, float y, float z){
+Enemy::Enemy(float x, float y, float z) : Enemy() {
+    reset(x, y, z);
+}
+
+void Enemy::reset(float x, float y, float z) {
     position = Point(x, y, z);
     velocity = Point(0, 0, 0);
     posBaseY = y;
@@ -26,16 +36,6 @@ Enemy::Enemy(float x, float y, float z){
     foiAtingido = false;
     hitTime = 0.0f;
     health = 5.0f;
-
-    set_diffuse_coef(.447, .173, .522);
-    set_specular_coef(.9, .9, .9);
-    set_shininess_coef(10);
-
-    set_scale(.2);
-    if (!load_model("assets/haunter.obj"))
-        throw std::invalid_argument("Carregamento da arena falhou");
-    if (!load_model("assets/haunter.mtl"))
-        throw std::invalid_argument("Carregamento da arena falhou");
 }
 
 void Enemy::desenhar(float playerX, float playerZ) {
@@ -85,11 +85,12 @@ void Enemy::update(float deltaTime, const Point& cameraPos){
     //movimentando em direção ao player
     float speed;
 
-    if(foiAtingido){
+    if (foiAtingido) {
         speed = 1.0f;
     }else{
         speed = 2.0f;
     }
+    speed *= speed_boost;
 
     position = Point(position.getX() + direction.getX() * speed * deltaTime,
                position.getY(), position.getZ() + direction.getZ() * speed * deltaTime);
@@ -127,4 +128,16 @@ bool Enemy::verificarColisaoSword(const Point& swordPos, float raio) const{
     float distance = sqrt(dx * dx + dz * dz);
 
     return distance < raio;
+}
+
+void Enemy::set_scale_boost(float boost) {
+    scale_boost = boost;
+}
+
+void Enemy::set_speed_boost(float boost) {
+    speed_boost = boost;
+}
+
+float Enemy::get_scale() {
+    return Object3D::get_scale() * scale_boost; 
 }

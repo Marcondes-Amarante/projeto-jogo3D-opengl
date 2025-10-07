@@ -69,6 +69,7 @@ public:
     const Point& get_position();
     void set_position(float x, float y, float z);
     void set_scale(float new_scale);
+    virtual float get_scale();
     void get_color(float &r, float &g, float &b);
     const float* get_color_vec();
     void set_color(float r, float g, float b);

@@ -26,7 +26,7 @@ void Object3D::draw() {
 }
 
 void Object3D::setup_draw() {
-    glScalef(scale, scale, scale);
+    glScalef(get_scale(), get_scale(), get_scale());
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -212,6 +212,10 @@ float Object3D::get_shininess_coef() const {
 
 const Point& Object3D::get_position() {
     return position;
+}
+
+float Object3D::get_scale() {
+    return scale;
 }
 
 void Object3D::get_color(float &r, float &g, float &b) {

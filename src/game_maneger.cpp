@@ -8,7 +8,9 @@
 #define LIMITX 10
 #define LIMITZ 8
 
-int max_waves = 5; 
+int max_waves = 4; 
+int speed_boost = 1;
+int scale_boost = 1;
 int extra_health = 0;
 
 GameManager* GameManager::game = nullptr;
@@ -42,15 +44,14 @@ void GameManager::startGame() {
 
 void GameManager::spawnWave(int waveNumber) {
     currentWave = waveNumber;
-    enemies.clear();
-    int numEnemies = 1 + ((int) waveNumber * 1.4);
+    int numEnemies = 1 + ((int) waveNumber * 1.5);
     enemiesRemaining = numEnemies;
     if (true) {
         spawn_health = true;
     } else {
         spawn_health = false;
     }
-    for (int i = 0; i < numEnemies; ++i) {
+    for (int i = 0; i < numEnemies; i++) {
         float xPos, zPos;
         while (1) {
             xPos = (rand() % 40) - 20;
@@ -60,7 +61,13 @@ void GameManager::spawnWave(int waveNumber) {
                 break;
             }
         }
-        enemies.push_back(Enemy(xPos, -.2f, zPos));
+        if (i < enemies.size()) {
+            enemies[i].reset(xPos, -.2f, zPos);
+        } else {
+            enemies.push_back(Enemy(xPos, -.2f, zPos));
+        }
+        enemies[i].set_speed_boost(speed_boost);
+        enemies[i].set_scale_boost(scale_boost);
     }
 }
 
@@ -225,8 +232,10 @@ void GameManager::timer(int) {
             spawnWave(currentWave + 1);
         else {
             currentState = VICTORY;
+            scale_boost += .1;
+            speed_boost += .1;
             max_waves++;
-            extra_health += 2;
+            extra_health += 5;
         }
     }
 

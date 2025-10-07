@@ -17,6 +17,8 @@ private:
     float hitTime;
 
     float health;
+    float scale_boost;
+    float speed_boost;
 
 public:
 
@@ -26,11 +28,16 @@ public:
     void update(float deltaTime, const Point& cameraPos);
     void takeHit(const Point& knockbackDir);
     void applyKnockback(const Point& direction);
+    void reset(float x, float y, float z);
 
     //getters
     const Point& getPosition() const {return position; }
+    float get_scale() override;
     bool isAlive() const {return health > 0; }
     bool levandoDano() const {return foiAtingido; }
+
+    void set_scale_boost(float boost);
+    void set_speed_boost(float boost);
 
     //verificação de colisões
     bool verificarColisaoPlayer(const Point& cameraPos, float raio = 1.0f) const;
