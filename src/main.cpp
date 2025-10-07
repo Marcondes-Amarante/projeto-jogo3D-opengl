@@ -40,15 +40,20 @@ void initGL() {
     glClearColor(0.1f,0.1f,0.1f,1.0f);
     glutSetCursor(GLUT_CURSOR_NONE);
 
-    GLfloat lightPos[]     = { 2.0f, 2.0f, 2.0f, 1.0f };
-    GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-    GLfloat specularLight[]= { 1.0f, 1.0f, 1.0f, 1.0f };
+    float position[4] = {2, 2, 2, 0};
+    float white[4] = {1, 1, 1, 1};
+    float black[4] = {0, 0, 0, 1};
 
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  ambientLight);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  diffuseLight);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, black);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, white);
+
+    float global_ambient[4] = {(float) .4, (float) .4, (float) .4, 1};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
     GLfloat mat_specular[] = {1.0,1.0,1.0,1.0};
     GLfloat mat_shininess[]= {50.0};

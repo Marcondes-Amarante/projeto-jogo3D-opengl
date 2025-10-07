@@ -42,6 +42,7 @@ public:
     void takeHit(const Point& knockbackDir);
     bool is_alive();
     int get_health();
+    void add_extra_health(int value);
     void applyKnockback(const Point& direction);
     void init_player();
 };

@@ -5,6 +5,9 @@
 #include <vector>
 #include <cmath>
 
+int max_waves = 5; 
+int extra_health = 0;
+
 GameManager* GameManager::game = nullptr;
 
 void drawText(float x, float y, const std::string& text) {
@@ -30,6 +33,7 @@ void GameManager::startGame() {
     enemiesRemaining = 0;
     lastTime = glutGet(GLUT_ELAPSED_TIME);
     player.init_player();
+    player.add_extra_health(extra_health);
     spawnWave(1);
 }
 
@@ -55,7 +59,7 @@ void GameManager::drawHUD() {
     if (currentState == PLAYING || currentState == GAME_OVER || currentState == VICTORY) {
         int health = static_cast<int>(player.get_health());
         drawText(20, 560, "Vida: " + std::to_string(health > 0 ? health : 0));
-        drawText(20, 530, "Onda: " + std::to_string(currentWave));
+        drawText(20, 530, "Onda: " + std::to_string(currentWave) + '/' + std::to_string(max_waves));
         drawText(20, 500, "Inimigos: " + std::to_string(enemiesRemaining));
     }
     if (currentState == MENU) {
@@ -188,10 +192,13 @@ void GameManager::timer(int) {
     }
     enemiesRemaining = alive_enemies;
     if (enemiesRemaining <= 0) {
-        if (currentWave < 5)
+        if (currentWave < max_waves)
             spawnWave(currentWave + 1);
-        else
+        else {
             currentState = VICTORY;
+            max_waves++;
+            extra_health += 2;
+        }
     }
 
     if (!player.is_alive()) {

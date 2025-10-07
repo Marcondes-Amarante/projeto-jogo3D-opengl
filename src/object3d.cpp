@@ -31,6 +31,8 @@ void Object3D::setup_draw() {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, textureID);
     
+    GLfloat diffuse[] = {.8, .8, .8};
+    glColor3fv(diffuse);
     glBegin(GL_TRIANGLES);
     for (const auto& face : faces) {
         Material* mat = nullptr;

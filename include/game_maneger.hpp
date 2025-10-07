@@ -7,7 +7,6 @@
 #include "arena.hpp"
 
 enum GameState { MENU, PLAYING, GAME_OVER, VICTORY };
-#define MAX_WAVES 5 
 
 class GameManager {
 private:

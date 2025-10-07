@@ -22,7 +22,7 @@ Player::Player(float x, float y, float z, float pitch, float yaw) {
 
 void Player::init_player() {
     isAttacking = false;
-    health = 10.0f;
+    health = 100.0f;
     velocity = Point(0, 0, 0);
     foiAtingido = false;
     hitTime = 0.0f;
@@ -30,6 +30,10 @@ void Player::init_player() {
     velocity.setX(0.0);
     velocity.setY(0.0);
     velocity.setZ(0.0);
+}
+
+void Player::add_extra_health(int value) {
+    health += value; 
 }
 
 const Point& Player::get_position() const {
