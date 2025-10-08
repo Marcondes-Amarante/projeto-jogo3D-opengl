@@ -33,25 +33,11 @@ void Object3D::setup_draw() {
     
     glBegin(GL_TRIANGLES);
     for (const auto& face : faces) {
-        Material* mat = nullptr;
-        if (!face[0].material_name.empty()) {
-            auto it = materials.find(face[0].material_name);
-            if (it != materials.end()) mat = &it->second;
-        }
-
-        if (mat) {
-            GLfloat diffuse[]  = { mat->Kd[0], mat->Kd[1], mat->Kd[2], 1.0f };
-            GLfloat specular[] = { mat->Ks[0], mat->Ks[1], mat->Ks[2], 1.0f };
-            GLfloat shininess  = mat->Ns;
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  diffuse);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
-        } else {
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  get_diffuse_coef());
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, get_specular_coef());
-            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, get_shininess_coef());
-        }
         
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  get_diffuse_coef());
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, get_specular_coef());
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, get_shininess_coef());
+    
         for (const auto& f : face) {
             if (f.vtIdx >= 0 && f.vtIdx < texcoords.size())
                 glTexCoord2f(texcoords[f.vtIdx].u, texcoords[f.vtIdx].v);
