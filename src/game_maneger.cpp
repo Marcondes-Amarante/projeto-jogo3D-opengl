@@ -8,7 +8,7 @@
 #define LIMITX 10
 #define LIMITZ 8
 
-int max_waves = 4; 
+int max_waves = 3; 
 int speed_boost = 1;
 int scale_boost = 1;
 int extra_health = 0;
@@ -232,8 +232,8 @@ void GameManager::timer(int) {
             spawnWave(currentWave + 1);
         else {
             currentState = VICTORY;
-            scale_boost += .1;
-            speed_boost += .1;
+            scale_boost += .6;
+            speed_boost += .6;
             max_waves++;
             extra_health += 5;
         }

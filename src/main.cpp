@@ -49,12 +49,10 @@ void initGL() {
 
 void lighting() {
     GLfloat light_pos[]     = { 2.0f, 1.0f, 2.0f, 1.0f };
-    GLfloat ambient_light[] = { 0.2f, 0.2f, 0.2f, 1.0f };
     GLfloat diffuse_light[] = { 0.9f, 0.9f, 0.9f, 1.0f };
     GLfloat specular_light[]= { 1.0f, 1.0f, 1.0f, 1.0f };
 
     glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
-    //glLightfv(GL_LIGHT0, GL_AMBIENT,  ambient_light);
     glLightfv(GL_LIGHT0, GL_DIFFUSE,  diffuse_light);
     glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
 
@@ -63,8 +61,6 @@ void lighting() {
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-
-    glShadeModel(GL_SMOOTH);
 }
 
 

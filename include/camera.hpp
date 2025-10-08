@@ -1,9 +1,9 @@
 #ifndef CAMERA_MAP_HPP
 #define CAMERA_MAP_HPP
 
-#include <GL/glut.h>
 #include <string>
-#include "keyboard_map.hpp"
+using namespace std;
+#include <GL/glut.h>
 #include "point.hpp"
 
 class Camera {
@@ -33,7 +33,7 @@ public:
     
     Point get_direction() const;
     
-    string get_str_position();
+    std::string get_str_position();
 
     void set_position(float x, float y, float z);
 };
