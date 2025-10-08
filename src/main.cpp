@@ -20,6 +20,10 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
 
     glutKeyboardFunc([] (unsigned char key, int x, int y) { GameManager::get_instance()->keyboard_down(key, x, y); });
+    glutSpecialFunc([](int key, int x, int y) {
+    GameManager::get_instance()->special_key(key, x, y);
+});
+
     glutKeyboardUpFunc([] (unsigned char key, int x, int y) { GameManager::get_instance()->keyboard_up(key, x, y); });
     glutPassiveMotionFunc([] (int x, int y) { GameManager::get_instance()->mouse_motion(x, y); });
     glutMouseFunc([] (int b, int s, int x, int y) { GameManager::get_instance()->mouse_click(b, s, x, y); });

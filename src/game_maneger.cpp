@@ -78,6 +78,7 @@ void GameManager::drawHUD() {
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
     glColor3f(1.0f, 1.0f, 1.0f);
+
     if (currentState == PLAYING || currentState == GAME_OVER || currentState == VICTORY) {
         int health = static_cast<int>(player.get_health());
         drawText(20, 560, "Vida: " + std::to_string(health > 0 ? health : 0));
@@ -85,11 +86,37 @@ void GameManager::drawHUD() {
         drawText(20, 500, "Inimigos: " + std::to_string(enemiesRemaining));
     }
     if (currentState == MENU) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glColor4f(0.0f, 0.0f, 0.0f, 0.5f); 
+        glBegin(GL_QUADS);
+        glVertex2f(0, 0);
+        glVertex2f(800, 0);
+        glVertex2f(800, 600);
+        glVertex2f(0, 600);
+        glEnd();
+        glDisable(GL_BLEND); // Desativa o blending para outros elementos
+
+
         glColor3f(1.0, 0.85, 0.1);
-        drawText(260, 400, "HAUNTER SLAYER");
-        glColor3f(0.6, 0.8, 1.0);
-        drawText(240, 300, "Pressione 'ESPACO' para comecar");
+        
+        drawText(280, 450, "HAUNTER SLAYER");
+
+        std::vector<std::string> options = { "Iniciar Novo Jogo" };
+        if (hasSavedGame) options.push_back("Continuar");
+        options.push_back("Sair");
+
+        for (int i = 0; i < (int)options.size(); i++) {
+            if (i == selectedOption)
+                glColor3f(1.0, 1.0, 0.2); // destaque
+            else
+                glColor3f(0.6, 0.8, 1.0);
+            drawText(330, 350 - i * 40, options[i]);
+        }
     }
+
+   
+
 
     if (currentState == GAME_OVER) {
         glColor3f(1.0, 0.2, 0.1);
@@ -111,20 +138,85 @@ void GameManager::drawHUD() {
 }
 
 void GameManager::keyboard_down(unsigned char key, int x, int y) {
-    if (key == 27) exit(0); // ESC
-    
-    if (currentState == MENU || currentState == GAME_OVER || currentState == VICTORY) {
-        if (key == ' ' || key == ' ') startGame();
+    // ESC → pausa ou sai do jogo
+    if (key == 27) { // ESC
+    if (currentState == PLAYING) {
+        hasSavedGame = true;     
+        currentState = MENU;      
+        return;
+    } else if (currentState == MENU) {
+        exit(0);
+    }
+}
+
+
+    // === MENU PRINCIPAL ===
+    if (currentState == MENU) {
+        if (key == 'w' || key == 'W') {
+            selectedOption--;
+            if (selectedOption < 0) selectedOption = 2;
+        } else if (key == 's' || key == 'S') {
+            selectedOption++;
+            if (selectedOption > 2) selectedOption = 0;
+        } else if (key == 13 || key == ' ') { // Enter ou Espaço
+            if (selectedOption == 0) { // Iniciar
+                startGame();
+            } else if (selectedOption == 1 && hasSavedGame) { // Continuar
+                currentState = PLAYING;
+            } else { // Sair
+                exit(0);
+            }
+        }
         return;
     }
 
-    if (key == 'r' or key == 'R') {
-        startGame();
+ 
+
+    // === GAME OVER / VITÓRIA ===
+    if (currentState == GAME_OVER || currentState == VICTORY) {
+        if (key == ' ' || key == 13) startGame();
         return;
     }
-    
-    player.keyboard_down(key);
+
+    // === JOGANDO ===
+    if (currentState == PLAYING) {
+        if (key == 'r' || key == 'R') {
+            startGame();
+            return;
+        }
+        player.keyboard_down(key);
+    }
 }
+void GameManager::special_key(int key, int x, int y) {
+    if (currentState == MENU) {
+        switch (key) {
+            case GLUT_KEY_UP:
+                selectedOption--;
+                if (selectedOption < 0) selectedOption = 2; // último item
+                break;
+
+            case GLUT_KEY_DOWN:
+                selectedOption++;
+                if (selectedOption > 2) selectedOption = 0; // volta pro topo
+                break;
+
+            
+            case 13: // Enter normal
+                if (selectedOption == 0) { // Iniciar
+                    startGame();
+                } else if (selectedOption == 1 && hasSavedGame) { // Continuar
+                    currentState = PLAYING;
+                } else { // Sair
+                    exit(0);
+                }
+                break;
+        }
+    }
+
+    
+}
+
+
 
 void GameManager::keyboard_up(unsigned char key, int x, int y) {
     if (currentState != PLAYING) return;
@@ -181,6 +273,7 @@ void GameManager::display() {
 }
 
 void GameManager::timer(int) {
+    
     if (currentState != PLAYING) {
         glutPostRedisplay();
         glutTimerFunc(16, [] (int a) { GameManager::get_instance()->timer(a); }, 0);

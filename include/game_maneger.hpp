@@ -8,11 +8,15 @@
 
 enum GameState { MENU, PLAYING, GAME_OVER, VICTORY };
 
+
 class GameManager {
 private:
     std::vector<Enemy> enemies;
     bool spawn_health;
     GameState currentState;
+    int selectedOption = 0;   // controla o item selecionado no menu
+    bool hasSavedGame = false; // controla se existe jogo em andamento para poder continuar
+
     int currentWave;
     float playerHealth;
     int enemiesRemaining;
@@ -34,6 +38,7 @@ public:
     void keyboard_up(unsigned char key, int x, int y);
     void mouse_motion(int x, int y);
     void mouse_click(int button, int state, int x, int y);
+    void special_key(int key, int x, int y);
     void display();
     void timer(int);
 };
