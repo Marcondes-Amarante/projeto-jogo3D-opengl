@@ -9,8 +9,8 @@
 #define LIMITZ 8
 
 int max_waves = 3; 
-int speed_boost = 1;
-int scale_boost = 1;
+float speed_boost = 1;
+float scale_boost = 1;
 int extra_health = 0;
 
 GameManager* GameManager::game = nullptr;
